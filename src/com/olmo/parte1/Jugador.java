@@ -5,7 +5,7 @@ public class Jugador {
 	
 	String nombre;
 	String apellido;
-	Integer dorsal;
+	int dorsal;
 	String posicion;
 	
 	public String getNombre() {
@@ -20,6 +20,7 @@ public class Jugador {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+	
 	public int getDorsal() {
 		return dorsal;
 	}

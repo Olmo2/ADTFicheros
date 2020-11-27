@@ -4,12 +4,13 @@ public class Main {
 
 	public static void main(String[] args) {
 		Integer valor = null;
-		
+
 		Jugador jugador = new Jugador();
-		jugador.setNombre("Manolo");
-		jugador.setApellido("Fdez");
-		jugador.setDorsal(19);
-		jugador.setPosicion("Algo");
+		Jugador jugador2 = new Jugador();
+		jugador.setNombre("Olmo");
+		jugador.setApellido("Tamargo");
+		jugador.setDorsal(73);
+		jugador.setPosicion("Banquilo");
 
 		Libro libro = new Libro();
 		libro.setAutor("Miguel de Cervantes");
@@ -18,11 +19,20 @@ public class Main {
 		libro.setAnio(1605);
 
 		// Jugadores
-//		String ruta = "C:\\Users\\OLMO\\jugadores.txt";
+//		String ruta = "C:\\olmo\\jugadore.txt";
 //		FicheroRegTexto fich = new FicheroRegTexto(ruta);
+//	
 //		fich.escribirRegistro(jugador);
 //		fich.mostrarRegistros();
 //		System.out.println("\nNúmero de registros: " + fich.numeroDeRegistros());
+
+		// Jugadores
+		String ruta = "C:\\olmo\\jugadores.dat";
+		FicheroRegAleatorio fichA = new FicheroRegAleatorio(ruta);
+
+		fichA.escribirRegistro(jugador);
+		fichA.mostrarRegistros();
+		System.out.println("\nNúmero de registros: " + fichA.numeroDeRegistros());
 
 		// Libros
 //		  String ruta = "C:\\Users\\OLMO\\libros.txt"; 
@@ -30,15 +40,16 @@ public class Main {
 //		  fichL.escribirRegistro(libro); fichL.leerRegistro(libro);
 //		  fichL.mostrarRegistros(); System.out.println("\nNúmero de registros: " +  fichL.numeroDeRegistros());
 
-		// Números
-		String ruta = "C:\\Users\\OLMO\\binarios.dat";
-		FicheroRegBinario fichB = new FicheroRegBinario(ruta);
-
-		fichB.escribirRegistro(12);
-		//fichB.leerRegistro(valor);
-		fichB.mostrarRegistros();
-		//System.out.println("\nNúmero de registros: " + fichB.numeroDeRegistros());
-
+		// Binarios
+//		String ruta = "C:\\olmo\\binarios.dat";
+//		FicheroRegBinario fichB = new FicheroRegBinario(ruta);
+//
+//		//fichB.escribirRegistro(jugador);
+//		fichB.abrirFicheroR();
+//		//fichB.leerRegistro(jugador2);
+//		fichB.mostrarRegistros();
+//		
+//		System.out.println("\nNúmero de registros: " + fichB.numeroDeRegistros());
 	}
 
 }

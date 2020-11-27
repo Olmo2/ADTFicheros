@@ -1,6 +1,7 @@
 ﻿package com.olmo.parte1;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -142,35 +143,33 @@ public class FicheroRegTexto extends FicheroReg {
 	 */
 
 	public boolean leerRegistro(Jugador jugador) {
-		abrirFicheroR();
-		String nombre = null;
-		String apellido = null;
-		Integer dorsal = null;
-		String posicion = null;
-
+		Boolean result = true;
+		String dorsal="";
 		try {
-			nombre = fichLect2.readLine();
-			apellido = fichLect2.readLine();
-			dorsal = Integer.parseInt(fichLect2.readLine());
-			posicion = fichLect2.readLine();
-		} catch (IOException e) {
+			jugador.setNombre(fichLect2.readLine());
+			jugador.setApellido(fichLect2.readLine());
+			dorsal = (fichLect2.readLine());
+			jugador.setPosicion( fichLect2.readLine());
+			jugador.setDorsal(Integer.parseInt(dorsal));
+			
+			
+		} catch (EOFException e) {
 			// TODO Auto-generated catch block
+		
+			System.out.println("Fin de archivo");
+			result= false;
+		} catch(IOException e) {
 			e.printStackTrace();
+			result= false;
+		} catch(NumberFormatException e) {
+			result =false;
+			
 		}
-
-		cerrarFicheroR();
-
-		if ((nombre.equals(null) || apellido.equals(null) || dorsal == null || posicion.equals(null))) {
-			return false;
-		}
-
-		jugador.setNombre(nombre);
-		jugador.setApellido(apellido);
-		jugador.setDorsal(dorsal);
-		jugador.setPosicion(posicion);
-		jugador.mostrarInfo();
-
-		return true;
+	
+		
+		
+		
+		return result;
 
 	}
 
@@ -180,24 +179,22 @@ public class FicheroRegTexto extends FicheroReg {
 	@Override
 	public boolean escribirRegistro(Jugador jugador) {
 		abrirFicheroW(true);
+		Boolean result = true;
 		try {
 			fichEscr2.write(jugador.getNombre() + "\n");
 			fichEscr2.write(jugador.getApellido() + "\n");
-			fichEscr2.write(jugador.getDorsal() + "\n");
+			fichEscr2.write(jugador.getDorsal() +"\n" );
 			fichEscr2.write(jugador.getPosicion() + "\n");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			result=false;
 			e.printStackTrace();
 		}
 
 		cerrarFicheroW();
 
-		if (jugador.getNombre() != null && jugador.getApellido() != null && jugador.getDorsal() != 0
-				&& jugador.getPosicion() != null) {
-			return false;
-		}
+		
 
-		return true;
+		return result;
 
 	}
 
@@ -206,41 +203,26 @@ public class FicheroRegTexto extends FicheroReg {
 	// datos leídos
 	public void mostrarRegistros() {
 		abrirFicheroR();
-		try {
-			while ((str = fichLect2.readLine()) != null) {
-				System.out.println("Nombre: " + str);
-				str = fichLect2.readLine();
-				System.out.println("Apellido: " + str);
-				str = fichLect2.readLine();
-				System.out.println("Dorsal: " + str);
-				str = fichLect2.readLine();
-				System.out.println("Posicion: " + str);
-				System.out.println("\n");
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Jugador jugador = new Jugador();
+		while (leerRegistro(jugador)) {
+			jugador.mostrarInfo();
 		}
+		
 		cerrarFicheroR();
-
 	}
 
 	// Recorre el fichero de igual modo que el método anterior pero va contando el
 	// número de registros leídos y al final devuelve el número de registros leídos
 	public int numeroDeRegistros() {
 		abrirFicheroR();
-		int i = 0;
-		try {
-			while ((str = fichLect2.readLine()) != null) {
-				i++;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int i=0;
+		Jugador jugador = new Jugador();
+		while (leerRegistro(jugador)) {
+			i++;
 		}
+		
 		cerrarFicheroR();
-		return i / 4;
+		return i ;
 
 	}
 

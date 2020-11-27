@@ -1,5 +1,6 @@
 ﻿package com.olmo.parte1;
 
+import java.io.EOFException;
 import java.io.File;
 
 public abstract class FicheroReg {
