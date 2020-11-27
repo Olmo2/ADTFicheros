@@ -1,4 +1,8 @@
-package com.olmo.parte1;
+package com.olmo.principal;
+
+import com.olmo.jugadores.FicheroRegAleat;
+import com.olmo.jugadores.Jugador;
+import com.olmo.libros.Libro;
 
 public class Main {
 
@@ -28,7 +32,7 @@ public class Main {
 
 		// Jugadores
 		String ruta = "C:\\olmo\\jugadores.dat";
-		FicheroRegAleatorio fichA = new FicheroRegAleatorio(ruta);
+		FicheroRegAleat fichA = new FicheroRegAleat(ruta);
 
 		fichA.escribirRegistro(jugador);
 		fichA.mostrarRegistros();

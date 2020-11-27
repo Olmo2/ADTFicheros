@@ -1,4 +1,4 @@
-﻿package com.olmo.parte1;
+﻿package com.olmo.jugadores;
 
 import java.io.BufferedReader;
 import java.io.EOFException;

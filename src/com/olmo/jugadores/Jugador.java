@@ -1,4 +1,4 @@
-package com.olmo.parte1;
+package com.olmo.jugadores;
 
 public class Jugador {
 	
