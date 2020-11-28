@@ -1,12 +1,14 @@
 package com.olmo.libros;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class FicheroRegTextoLibro extends FicheroRegLibro {
 
@@ -14,7 +16,7 @@ public class FicheroRegTextoLibro extends FicheroRegLibro {
 	FileWriter fichEscr2;
 	FileReader fichLect1;
 	BufferedReader fichLect2;
-	File fichero;
+	File fichero = new File("C/:olmo/registro.txt");
 	String str;
 
 	public FicheroRegTextoLibro() {
@@ -141,35 +143,32 @@ public class FicheroRegTextoLibro extends FicheroRegLibro {
 	 */
 
 	public boolean leerRegistro(Libro libro) {
-		abrirFicheroR();
-		String autor = null;
-		String titulo = null;
-		String genero = null;
-		Integer anio = null;
-
+		Boolean result = true;
+		String anio="";
 		try {
-			autor = fichLect2.readLine();
-			titulo = fichLect2.readLine();
-			genero = fichLect2.readLine();
-			anio = Integer.parseInt(fichLect2.readLine());
-		} catch (IOException e) {
+			libro.setAutor(fichLect2.readLine());
+			libro.setTitulo(fichLect2.readLine());
+			//anio = (fichLect2.readLine());
+			libro.setAnio(Integer.parseInt(fichLect2.readLine()));
+			libro.setGenero( fichLect2.readLine());
+			
+			
+			
+		} catch (EOFException e) {
 			// TODO Auto-generated catch block
+		
+			System.out.println("Fin de archivo");
+			result= false;
+		} catch(IOException e) {
 			e.printStackTrace();
+			result= false;
+		} catch(NumberFormatException e) {
+			result =false;
+			
 		}
-
-		cerrarFicheroR();
-
-		if ((autor.equals(null) || titulo.equals(null) || anio == null || genero.equals(null))) {
-			return false;
-		}
-
-		libro.setAutor(autor);
-		libro.setTitulo(titulo);
-		libro.setAnio(anio);
-		libro.setGenero(genero);
-		libro.mostrarInfo();
-
-		return true;
+	
+		
+		return result;
 
 	}
 
@@ -179,25 +178,22 @@ public class FicheroRegTextoLibro extends FicheroRegLibro {
 	@Override
 	public boolean escribirRegistro(Libro libro) {
 		abrirFicheroW(true);
+		Boolean result = true;
 		try {
 			fichEscr2.write(libro.getAutor() + "\n");
 			fichEscr2.write(libro.getTitulo() + "\n");
+			fichEscr2.write(libro.getAnio() +"\n" );
 			fichEscr2.write(libro.getGenero() + "\n");
-			fichEscr2.write(libro.getAnio() + "\n");
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			result=false;
 			e.printStackTrace();
 		}
 
 		cerrarFicheroW();
 
-		if (libro.getAutor() != null && libro.getTitulo() != null && libro.getAnio() != 0
-				&& libro.getGenero() != null) {
-			return false;
-		}
+		
 
-		return true;
+		return result;
 
 	}
 
@@ -206,41 +202,26 @@ public class FicheroRegTextoLibro extends FicheroRegLibro {
 	// datos leídos
 	public void mostrarRegistros() {
 		abrirFicheroR();
-		try {
-			while ((str = fichLect2.readLine()) != null) {
-				System.out.println("Autor: " + str);
-				str = fichLect2.readLine();
-				System.out.println("Título: " + str);
-				str = fichLect2.readLine();
-				System.out.println("Genero: " + str);
-				str = fichLect2.readLine();
-				System.out.println("Anio: " + str);
-				System.out.println("\n");
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Libro libro = new Libro();
+		while (leerRegistro(libro)) {
+			libro.mostrarInfo();
 		}
+		
 		cerrarFicheroR();
-
 	}
 
 	// Recorre el fichero de igual modo que el método anterior pero va contando el
 	// número de registros leídos y al final devuelve el número de registros leídos
 	public int numeroDeRegistros() {
 		abrirFicheroR();
-		int i = 0;
-		try {
-			while ((str = fichLect2.readLine()) != null) {
-				i++;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int i=0;
+		Libro libro = new Libro();
+		while (leerRegistro(libro)) {
+			i++;
 		}
+		
 		cerrarFicheroR();
-		return i / 4;
+		return i ;
 
 	}
 
